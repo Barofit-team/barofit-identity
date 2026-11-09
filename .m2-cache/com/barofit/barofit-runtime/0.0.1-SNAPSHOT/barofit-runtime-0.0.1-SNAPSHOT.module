@@ -1,0 +1,118 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "com.barofit",
+    "module": "barofit-runtime",
+    "version": "0.0.1-SNAPSHOT",
+    "attributes": {
+      "org.gradle.status": "integration"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "9.7.1"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 21,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api"
+      },
+      "dependencies": [
+        {
+          "group": "com.barofit",
+          "module": "barofit-common",
+          "version": {
+            "requires": "0.0.1-SNAPSHOT"
+          }
+        },
+        {
+          "group": "org.springframework.boot",
+          "module": "spring-boot-starter-actuator"
+        },
+        {
+          "group": "org.springframework.boot",
+          "module": "spring-boot-starter-data-jpa"
+        },
+        {
+          "group": "org.springframework.boot",
+          "module": "spring-boot-starter-security-oauth2-resource-server"
+        },
+        {
+          "group": "org.flywaydb",
+          "module": "flyway-core"
+        }
+      ],
+      "files": [
+        {
+          "name": "barofit-runtime-0.0.1-SNAPSHOT.jar",
+          "url": "barofit-runtime-0.0.1-SNAPSHOT.jar",
+          "size": 14259,
+          "sha512": "aa93ec28639bc4fb732d4c496e00de1213d7da9d0eade3eba3aa6990d7b86819bf6d95c29104df0a18c65e762023894f588651d9e69a435167b3109a20c8c573",
+          "sha256": "87c4ba0bb6d99fadaf84b45a12f44d5e69be78c8fd9115cba0c3faec5d45cefb",
+          "sha1": "f868deaa8d9efcbc8ce6b717e82a9356df5dab7b",
+          "md5": "4ff032c8982d229c8755c87f91fa3ae5"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 21,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "com.barofit",
+          "module": "barofit-common",
+          "version": {
+            "requires": "0.0.1-SNAPSHOT"
+          }
+        },
+        {
+          "group": "org.springframework.boot",
+          "module": "spring-boot-starter-actuator"
+        },
+        {
+          "group": "org.springframework.boot",
+          "module": "spring-boot-starter-data-jpa"
+        },
+        {
+          "group": "org.springframework.boot",
+          "module": "spring-boot-starter-security-oauth2-resource-server"
+        },
+        {
+          "group": "org.flywaydb",
+          "module": "flyway-core"
+        },
+        {
+          "group": "org.flywaydb",
+          "module": "flyway-database-postgresql"
+        },
+        {
+          "group": "org.postgresql",
+          "module": "postgresql"
+        }
+      ],
+      "files": [
+        {
+          "name": "barofit-runtime-0.0.1-SNAPSHOT.jar",
+          "url": "barofit-runtime-0.0.1-SNAPSHOT.jar",
+          "size": 14259,
+          "sha512": "aa93ec28639bc4fb732d4c496e00de1213d7da9d0eade3eba3aa6990d7b86819bf6d95c29104df0a18c65e762023894f588651d9e69a435167b3109a20c8c573",
+          "sha256": "87c4ba0bb6d99fadaf84b45a12f44d5e69be78c8fd9115cba0c3faec5d45cefb",
+          "sha1": "f868deaa8d9efcbc8ce6b717e82a9356df5dab7b",
+          "md5": "4ff032c8982d229c8755c87f91fa3ae5"
+        }
+      ]
+    }
+  ]
+}

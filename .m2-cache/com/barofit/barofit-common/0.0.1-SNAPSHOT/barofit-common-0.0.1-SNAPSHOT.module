@@ -1,0 +1,80 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "com.barofit",
+    "module": "barofit-common",
+    "version": "0.0.1-SNAPSHOT",
+    "attributes": {
+      "org.gradle.status": "integration"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "9.7.1"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 21,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api"
+      },
+      "dependencies": [
+        {
+          "group": "org.springframework.boot",
+          "module": "spring-boot-starter-webmvc"
+        },
+        {
+          "group": "org.springframework.boot",
+          "module": "spring-boot-starter-validation"
+        }
+      ],
+      "files": [
+        {
+          "name": "barofit-common-0.0.1-SNAPSHOT.jar",
+          "url": "barofit-common-0.0.1-SNAPSHOT.jar",
+          "size": 8615,
+          "sha512": "1de87fa3cfdc693a999961994d36bcf87cc56e9bb0da206733ce0786ac7a7c53fa857b5b51cdc9c154bb86b0fc0e4653f3e71c584d4e97df367b1463291a8991",
+          "sha256": "009fa442b55cc51aeca2c4aab8c4bd68e5d55c2995c8ffcf00dd44d1f499e56d",
+          "sha1": "93e7260a1924517716fe420a3052745af5b4854f",
+          "md5": "e6c20ab65e3158fe1de09d9512183078"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 21,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "org.springframework.boot",
+          "module": "spring-boot-starter-webmvc"
+        },
+        {
+          "group": "org.springframework.boot",
+          "module": "spring-boot-starter-validation"
+        }
+      ],
+      "files": [
+        {
+          "name": "barofit-common-0.0.1-SNAPSHOT.jar",
+          "url": "barofit-common-0.0.1-SNAPSHOT.jar",
+          "size": 8615,
+          "sha512": "1de87fa3cfdc693a999961994d36bcf87cc56e9bb0da206733ce0786ac7a7c53fa857b5b51cdc9c154bb86b0fc0e4653f3e71c584d4e97df367b1463291a8991",
+          "sha256": "009fa442b55cc51aeca2c4aab8c4bd68e5d55c2995c8ffcf00dd44d1f499e56d",
+          "sha1": "93e7260a1924517716fe420a3052745af5b4854f",
+          "md5": "e6c20ab65e3158fe1de09d9512183078"
+        }
+      ]
+    }
+  ]
+}

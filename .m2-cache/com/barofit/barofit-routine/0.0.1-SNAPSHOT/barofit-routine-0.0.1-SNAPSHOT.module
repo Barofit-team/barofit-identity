@@ -1,0 +1,76 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "com.barofit",
+    "module": "barofit-routine",
+    "version": "0.0.1-SNAPSHOT",
+    "attributes": {
+      "org.gradle.status": "integration"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "9.7.1"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 21,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api"
+      },
+      "files": [
+        {
+          "name": "barofit-routine-0.0.1-SNAPSHOT-plain.jar",
+          "url": "barofit-routine-0.0.1-SNAPSHOT-plain.jar",
+          "size": 111497,
+          "sha512": "246769264f12397de0715555fa28e30ee4af86115aabe6bff9ffda5945713a683c2ccddb2b4f68a217f5b4ae8fe0581fa037ed97d71dd400ef66f51e59e27aa8",
+          "sha256": "af29b8269c451faa03161f93695a29d148f7e08104ba1ee80db9b4ba7a3f2527",
+          "sha1": "e9eadf0b65f13ec8aee672fbecae49a6f9ea243a",
+          "md5": "9fef7f53010b695934674a34dedcd3c9"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 21,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "com.barofit",
+          "module": "barofit-runtime",
+          "version": {
+            "requires": "0.0.1-SNAPSHOT"
+          }
+        },
+        {
+          "group": "org.springdoc",
+          "module": "springdoc-openapi-starter-webmvc-ui",
+          "version": {
+            "requires": "3.1.1"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "barofit-routine-0.0.1-SNAPSHOT-plain.jar",
+          "url": "barofit-routine-0.0.1-SNAPSHOT-plain.jar",
+          "size": 111497,
+          "sha512": "246769264f12397de0715555fa28e30ee4af86115aabe6bff9ffda5945713a683c2ccddb2b4f68a217f5b4ae8fe0581fa037ed97d71dd400ef66f51e59e27aa8",
+          "sha256": "af29b8269c451faa03161f93695a29d148f7e08104ba1ee80db9b4ba7a3f2527",
+          "sha1": "e9eadf0b65f13ec8aee672fbecae49a6f9ea243a",
+          "md5": "9fef7f53010b695934674a34dedcd3c9"
+        }
+      ]
+    }
+  ]
+}

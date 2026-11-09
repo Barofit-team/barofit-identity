@@ -1,0 +1,187 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "com.barofit",
+    "module": "barofit-identity",
+    "version": "0.0.1-SNAPSHOT",
+    "attributes": {
+      "org.gradle.status": "integration"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "9.7.1"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 21,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api"
+      },
+      "files": [
+        {
+          "name": "barofit-identity-0.0.1-SNAPSHOT-plain.jar",
+          "url": "barofit-identity-0.0.1-SNAPSHOT-plain.jar",
+          "size": 132455,
+          "sha512": "3c32db900e4a99c46545cf597c3f19b0e154b66bf1f36687799ded1e005fe1bd4478fc458a4847d6e0a10d2438cae7c3dcd633d3071ddbf6960eabacb0512f52",
+          "sha256": "6d45364a3bbfb8897989278d77ebf7d222847905ea2cfd2ab45f3357b7eeb85f",
+          "sha1": "180af5806d8890758e52fb6d19b3c05b788515e2",
+          "md5": "0c21f9883025599228a2e98748e45a22"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 21,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "com.barofit",
+          "module": "barofit-runtime",
+          "version": {
+            "requires": "0.0.1-SNAPSHOT"
+          }
+        },
+        {
+          "group": "org.springframework.security",
+          "module": "spring-security-oauth2-jose"
+        },
+        {
+          "group": "org.springdoc",
+          "module": "springdoc-openapi-starter-webmvc-ui",
+          "version": {
+            "requires": "3.1.1"
+          }
+        },
+        {
+          "group": "software.amazon.awssdk",
+          "module": "bom",
+          "version": {
+            "requires": "2.57.8"
+          },
+          "attributes": {
+            "org.gradle.category": "platform"
+          },
+          "endorseStrictVersions": true
+        },
+        {
+          "group": "software.amazon.awssdk",
+          "module": "s3",
+          "excludes": [
+            {
+              "group": "software.amazon.awssdk",
+              "module": "apache-client"
+            },
+            {
+              "group": "software.amazon.awssdk",
+              "module": "netty-nio-client"
+            }
+          ]
+        },
+        {
+          "group": "software.amazon.awssdk",
+          "module": "url-connection-client"
+        }
+      ],
+      "files": [
+        {
+          "name": "barofit-identity-0.0.1-SNAPSHOT-plain.jar",
+          "url": "barofit-identity-0.0.1-SNAPSHOT-plain.jar",
+          "size": 132455,
+          "sha512": "3c32db900e4a99c46545cf597c3f19b0e154b66bf1f36687799ded1e005fe1bd4478fc458a4847d6e0a10d2438cae7c3dcd633d3071ddbf6960eabacb0512f52",
+          "sha256": "6d45364a3bbfb8897989278d77ebf7d222847905ea2cfd2ab45f3357b7eeb85f",
+          "sha1": "180af5806d8890758e52fb6d19b3c05b788515e2",
+          "md5": "0c21f9883025599228a2e98748e45a22"
+        }
+      ]
+    },
+    {
+      "name": "testFixturesApiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 21,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api"
+      },
+      "dependencies": [
+        {
+          "group": "com.barofit",
+          "module": "barofit-identity",
+          "version": {
+            "requires": "0.0.1-SNAPSHOT"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "barofit-identity-0.0.1-SNAPSHOT-test-fixtures.jar",
+          "url": "barofit-identity-0.0.1-SNAPSHOT-test-fixtures.jar",
+          "size": 3320,
+          "sha512": "35c2851178e7f2aea361edce80c1e30ff83ec466479567c347e4119651bc5758c668e5c530e69d80e1e34f2e75f9f7a10b30f3a3898103ff4d859e1e0ad54e12",
+          "sha256": "533fe73de6559362420ede72ebd6ec3ff29d2d945782747bd5719c4576c14132",
+          "sha1": "1c55e2af8169ff0f0a27179c1dd8b8f03aad0742",
+          "md5": "c82b2af4a54b052359ec5eda65c587ec"
+        }
+      ],
+      "capabilities": [
+        {
+          "group": "com.barofit",
+          "name": "barofit-identity-test-fixtures",
+          "version": "0.0.1-SNAPSHOT"
+        }
+      ]
+    },
+    {
+      "name": "testFixturesRuntimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 21,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "org.springframework.security",
+          "module": "spring-security-oauth2-jose"
+        },
+        {
+          "group": "com.barofit",
+          "module": "barofit-identity",
+          "version": {
+            "requires": "0.0.1-SNAPSHOT"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "barofit-identity-0.0.1-SNAPSHOT-test-fixtures.jar",
+          "url": "barofit-identity-0.0.1-SNAPSHOT-test-fixtures.jar",
+          "size": 3320,
+          "sha512": "35c2851178e7f2aea361edce80c1e30ff83ec466479567c347e4119651bc5758c668e5c530e69d80e1e34f2e75f9f7a10b30f3a3898103ff4d859e1e0ad54e12",
+          "sha256": "533fe73de6559362420ede72ebd6ec3ff29d2d945782747bd5719c4576c14132",
+          "sha1": "1c55e2af8169ff0f0a27179c1dd8b8f03aad0742",
+          "md5": "c82b2af4a54b052359ec5eda65c587ec"
+        }
+      ],
+      "capabilities": [
+        {
+          "group": "com.barofit",
+          "name": "barofit-identity-test-fixtures",
+          "version": "0.0.1-SNAPSHOT"
+        }
+      ]
+    }
+  ]
+}
