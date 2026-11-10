@@ -7,8 +7,8 @@ import org.springframework.context.annotation.Configuration;
 @Configuration(proxyBeanMethods = false)
 class IdentitySchemaConfig {
 
-	@Bean
-	ModuleSchema identitySchema() {
-		return new ModuleSchema("identity");
-	}
+  @Bean
+  ModuleSchema identitySchema() {
+    return new ModuleSchema("identity");
+  }
 }

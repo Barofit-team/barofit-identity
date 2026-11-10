@@ -21,27 +21,27 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class SocialAccount {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-	@Column(nullable = false, updatable = false)
-	private UUID userId;
+  @Column(nullable = false, updatable = false)
+  private UUID userId;
 
-	@Enumerated(EnumType.STRING)
-	@Column(nullable = false, updatable = false)
-	private SocialProvider provider;
+  @Enumerated(EnumType.STRING)
+  @Column(nullable = false, updatable = false)
+  private SocialProvider provider;
 
-	@Column(nullable = false, updatable = false)
-	private String providerUserId;
+  @Column(nullable = false, updatable = false)
+  private String providerUserId;
 
-	@Column(nullable = false, updatable = false)
-	private Instant createdAt;
+  @Column(nullable = false, updatable = false)
+  private Instant createdAt;
 
-	public SocialAccount(UUID userId, SocialProvider provider, String providerUserId, Instant now) {
-		this.userId = userId;
-		this.provider = provider;
-		this.providerUserId = providerUserId;
-		this.createdAt = now;
-	}
+  public SocialAccount(UUID userId, SocialProvider provider, String providerUserId, Instant now) {
+    this.userId = userId;
+    this.provider = provider;
+    this.providerUserId = providerUserId;
+    this.createdAt = now;
+  }
 }

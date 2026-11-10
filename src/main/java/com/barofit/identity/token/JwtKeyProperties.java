@@ -9,15 +9,13 @@ import org.springframework.validation.annotation.Validated;
 @Validated
 @ConfigurationProperties("barofit.jwt")
 public record JwtKeyProperties(
-		@NotBlank String privateKeyPath,
-		@NotBlank String publicJwksPath,
-		@NotBlank String currentKid) {
+    @NotBlank String privateKeyPath, @NotBlank String publicJwksPath, @NotBlank String currentKid) {
 
-	Path privateKeyFile() {
-		return Path.of(privateKeyPath);
-	}
+  Path privateKeyFile() {
+    return Path.of(privateKeyPath);
+  }
 
-	Path publicJwksFile() {
-		return Path.of(publicJwksPath);
-	}
+  Path publicJwksFile() {
+    return Path.of(publicJwksPath);
+  }
 }

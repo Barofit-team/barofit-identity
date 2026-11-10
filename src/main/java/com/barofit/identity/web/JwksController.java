@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 class JwksController {
 
-	private final JwtKeys jwtKeys;
+  private final JwtKeys jwtKeys;
 
-	@GetMapping(path = IdentityPublicPaths.JWKS, produces = MediaType.APPLICATION_JSON_VALUE)
-	Map<String, Object> jwks() {
-		return jwtKeys.getPublicJwks().toJSONObject(true);
-	}
+  @GetMapping(path = IdentityPublicPaths.JWKS, produces = MediaType.APPLICATION_JSON_VALUE)
+  Map<String, Object> jwks() {
+    return jwtKeys.getPublicJwks().toJSONObject(true);
+  }
 }

@@ -17,33 +17,33 @@ import org.springframework.stereotype.Component;
 @Component
 public class AccessTokenIssuer {
 
-	private final JwtEncoder jwtEncoder;
-	private final String currentKid;
-	private final Clock clock;
+  private final JwtEncoder jwtEncoder;
+  private final String currentKid;
+  private final Clock clock;
 
-	AccessTokenIssuer(JwtEncoder barofitJwtEncoder, JwtKeys jwtKeys, Clock clock) {
-		this.jwtEncoder = barofitJwtEncoder;
-		this.currentKid = jwtKeys.currentKid();
-		this.clock = clock;
-	}
+  AccessTokenIssuer(JwtEncoder barofitJwtEncoder, JwtKeys jwtKeys, Clock clock) {
+    this.jwtEncoder = barofitJwtEncoder;
+    this.currentKid = jwtKeys.currentKid();
+    this.clock = clock;
+  }
 
-	public IssuedAccessToken issue(UUID userId, UserRole role) {
-		Instant now = clock.instant();
-		Instant expiresAt = now.plus(TokenPolicy.ACCESS_TOKEN_TTL);
-		JwtClaimsSet claims = JwtClaimsSet.builder()
-				.issuer(BarofitTokenClaims.ISSUER)
-				.audience(List.of(BarofitTokenClaims.AUDIENCE))
-				.subject(userId.toString())
-				.issuedAt(now)
-				.expiresAt(expiresAt)
-				.id(UUID.randomUUID().toString())
-				.claim(BarofitTokenClaims.ROLE, role.name())
-				.build();
-		JwsHeader header = JwsHeader.with(SignatureAlgorithm.RS256).keyId(currentKid).build();
-		String token = jwtEncoder.encode(JwtEncoderParameters.from(header, claims)).getTokenValue();
-		return new IssuedAccessToken(token, expiresAt);
-	}
+  public IssuedAccessToken issue(UUID userId, UserRole role) {
+    Instant now = clock.instant();
+    Instant expiresAt = now.plus(TokenPolicy.ACCESS_TOKEN_TTL);
+    JwtClaimsSet claims =
+        JwtClaimsSet.builder()
+            .issuer(BarofitTokenClaims.ISSUER)
+            .audience(List.of(BarofitTokenClaims.AUDIENCE))
+            .subject(userId.toString())
+            .issuedAt(now)
+            .expiresAt(expiresAt)
+            .id(UUID.randomUUID().toString())
+            .claim(BarofitTokenClaims.ROLE, role.name())
+            .build();
+    JwsHeader header = JwsHeader.with(SignatureAlgorithm.RS256).keyId(currentKid).build();
+    String token = jwtEncoder.encode(JwtEncoderParameters.from(header, claims)).getTokenValue();
+    return new IssuedAccessToken(token, expiresAt);
+  }
 
-	public record IssuedAccessToken(String value, Instant expiresAt) {
-	}
+  public record IssuedAccessToken(String value, Instant expiresAt) {}
 }
