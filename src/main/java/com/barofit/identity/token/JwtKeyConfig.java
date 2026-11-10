@@ -12,14 +12,14 @@ import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 @EnableConfigurationProperties(JwtKeyProperties.class)
 class JwtKeyConfig {
 
-	@Bean
-	JwtKeys jwtKeys(JwtKeyProperties properties) {
-		return JwtKeys.load(properties);
-	}
+  @Bean
+  JwtKeys jwtKeys(JwtKeyProperties properties) {
+    return JwtKeys.load(properties);
+  }
 
-	// 서명 키는 identity 안에서만 쓴다
-	@Bean
-	JwtEncoder barofitJwtEncoder(JwtKeys jwtKeys) {
-		return new NimbusJwtEncoder(new ImmutableJWKSet<>(new JWKSet(jwtKeys.getSigningKey())));
-	}
+  // 서명 키는 identity 안에서만 쓴다
+  @Bean
+  JwtEncoder barofitJwtEncoder(JwtKeys jwtKeys) {
+    return new NimbusJwtEncoder(new ImmutableJWKSet<>(new JWKSet(jwtKeys.getSigningKey())));
+  }
 }

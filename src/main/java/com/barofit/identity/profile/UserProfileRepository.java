@@ -7,8 +7,8 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface UserProfileRepository extends JpaRepository<UserProfile, UUID> {
 
-	// 불편 부위는 FK ON DELETE CASCADE로 함께 지워진다
-	@Modifying(flushAutomatically = true)
-	@Query("delete from UserProfile p where p.userId = :userId")
-	int deleteByUserId(UUID userId);
+  // 불편 부위는 FK ON DELETE CASCADE로 함께 지워진다
+  @Modifying(flushAutomatically = true)
+  @Query("delete from UserProfile p where p.userId = :userId")
+  int deleteByUserId(UUID userId);
 }

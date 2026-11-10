@@ -8,9 +8,10 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface SocialAccountRepository extends JpaRepository<SocialAccount, Long> {
 
-	Optional<SocialAccount> findByProviderAndProviderUserId(SocialProvider provider, String providerUserId);
+  Optional<SocialAccount> findByProviderAndProviderUserId(
+      SocialProvider provider, String providerUserId);
 
-	@Modifying(flushAutomatically = true)
-	@Query("delete from SocialAccount a where a.userId = :userId")
-	int deleteAllByUserId(UUID userId);
+  @Modifying(flushAutomatically = true)
+  @Query("delete from SocialAccount a where a.userId = :userId")
+  int deleteAllByUserId(UUID userId);
 }

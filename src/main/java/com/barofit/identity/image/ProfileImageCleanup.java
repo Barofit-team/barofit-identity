@@ -10,10 +10,10 @@ import org.springframework.transaction.event.TransactionalEventListener;
 @RequiredArgsConstructor
 class ProfileImageCleanup {
 
-	private final ProfileImageService profileImageService;
+  private final ProfileImageService profileImageService;
 
-	@TransactionalEventListener
-	void on(ProfileImageDiscarded event) {
-		profileImageService.deleteQuietly(event.key());
-	}
+  @TransactionalEventListener
+  void on(ProfileImageDiscarded event) {
+    profileImageService.deleteQuietly(event.key());
+  }
 }

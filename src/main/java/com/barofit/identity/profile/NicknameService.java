@@ -11,31 +11,31 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class NicknameService {
 
-	static final int MAX_GENERATION_ATTEMPTS = 10;
+  static final int MAX_GENERATION_ATTEMPTS = 10;
 
-	private final UserRepository userRepository;
-	private final RandomNicknameGenerator generator;
+  private final UserRepository userRepository;
+  private final RandomNicknameGenerator generator;
 
-	@Transactional(readOnly = true)
-	public NicknameAvailability check(String nickname) {
-		if (!NicknamePolicy.isValid(nickname)) {
-			return NicknameAvailability.INVALID_FORMAT;
-		}
-		return isTaken(nickname) ? NicknameAvailability.DUPLICATED : NicknameAvailability.AVAILABLE;
-	}
+  @Transactional(readOnly = true)
+  public NicknameAvailability check(String nickname) {
+    if (!NicknamePolicy.isValid(nickname)) {
+      return NicknameAvailability.INVALID_FORMAT;
+    }
+    return isTaken(nickname) ? NicknameAvailability.DUPLICATED : NicknameAvailability.AVAILABLE;
+  }
 
-	@Transactional(readOnly = true)
-	public String generate() {
-		for (int attempt = 0; attempt < MAX_GENERATION_ATTEMPTS; attempt++) {
-			String nickname = generator.next();
-			if (!isTaken(nickname)) {
-				return nickname;
-			}
-		}
-		throw new BusinessException(ProfileErrorCode.PROFILE_NICKNAME_GENERATION_FAILED);
-	}
+  @Transactional(readOnly = true)
+  public String generate() {
+    for (int attempt = 0; attempt < MAX_GENERATION_ATTEMPTS; attempt++) {
+      String nickname = generator.next();
+      if (!isTaken(nickname)) {
+        return nickname;
+      }
+    }
+    throw new BusinessException(ProfileErrorCode.PROFILE_NICKNAME_GENERATION_FAILED);
+  }
 
-	boolean isTaken(String nickname) {
-		return userRepository.existsOnboardedNickname(nickname);
-	}
+  boolean isTaken(String nickname) {
+    return userRepository.existsOnboardedNickname(nickname);
+  }
 }

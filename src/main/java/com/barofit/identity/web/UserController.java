@@ -35,57 +35,60 @@ import org.springframework.web.multipart.MultipartFile;
 @RequiredArgsConstructor
 class UserController {
 
-	private final UserAccountService userAccountService;
-	private final ProfileService profileService;
-	private final NicknameService nicknameService;
-	private final ProfileImageService profileImageService;
+  private final UserAccountService userAccountService;
+  private final ProfileService profileService;
+  private final NicknameService nicknameService;
+  private final ProfileImageService profileImageService;
 
-	@GetMapping("/me")
-	MeResponse me(@AuthenticationPrincipal Jwt jwt) {
-		return MeResponse.from(profileService.getMyAccount(userId(jwt)));
-	}
+  @GetMapping("/me")
+  MeResponse me(@AuthenticationPrincipal Jwt jwt) {
+    return MeResponse.from(profileService.getMyAccount(userId(jwt)));
+  }
 
-	/** 온보딩 저장. 한 번만 할 수 있다 */
-	@PostMapping("/me/onboarding")
-	@ResponseStatus(HttpStatus.CREATED)
-	MeResponse onboard(@AuthenticationPrincipal Jwt jwt, @Valid @RequestBody OnboardingRequest request) {
-		return MeResponse.from(profileService.onboard(userId(jwt), request.toCommand()));
-	}
+  /** 온보딩 저장. 한 번만 할 수 있다 */
+  @PostMapping("/me/onboarding")
+  @ResponseStatus(HttpStatus.CREATED)
+  MeResponse onboard(
+      @AuthenticationPrincipal Jwt jwt, @Valid @RequestBody OnboardingRequest request) {
+    return MeResponse.from(profileService.onboard(userId(jwt), request.toCommand()));
+  }
 
-	/** 온보딩 후 프로필 수정. 보낸 항목만 바꾼다 */
-	@PatchMapping("/me/profile")
-	MeResponse updateProfile(@AuthenticationPrincipal Jwt jwt, @Valid @RequestBody ProfileUpdateRequest request) {
-		return MeResponse.from(profileService.updateProfile(userId(jwt), request.toCommand()));
-	}
+  /** 온보딩 후 프로필 수정. 보낸 항목만 바꾼다 */
+  @PatchMapping("/me/profile")
+  MeResponse updateProfile(
+      @AuthenticationPrincipal Jwt jwt, @Valid @RequestBody ProfileUpdateRequest request) {
+    return MeResponse.from(profileService.updateProfile(userId(jwt), request.toCommand()));
+  }
 
-	/** 프로필 사진 변경. multipart file 하나(JPEG·PNG·WebP, 5MB 이하) */
-	@PutMapping(path = "/me/profile-image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-	MeResponse changeProfileImage(@AuthenticationPrincipal Jwt jwt, @RequestPart("file") MultipartFile file)
-			throws IOException {
-		UUID userId = userId(jwt);
-		profileImageService.change(userId, file.getBytes());
-		return MeResponse.from(profileService.getMyAccount(userId));
-	}
+  /** 프로필 사진 변경. multipart file 하나(JPEG·PNG·WebP, 5MB 이하) */
+  @PutMapping(path = "/me/profile-image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+  MeResponse changeProfileImage(
+      @AuthenticationPrincipal Jwt jwt, @RequestPart("file") MultipartFile file)
+      throws IOException {
+    UUID userId = userId(jwt);
+    profileImageService.change(userId, file.getBytes());
+    return MeResponse.from(profileService.getMyAccount(userId));
+  }
 
-	/** 사용 중이지 않은 랜덤 닉네임. 예약하지 않는다 */
-	@GetMapping("/nicknames/random")
-	NicknameResponse randomNickname() {
-		return new NicknameResponse(nicknameService.generate());
-	}
+  /** 사용 중이지 않은 랜덤 닉네임. 예약하지 않는다 */
+  @GetMapping("/nicknames/random")
+  NicknameResponse randomNickname() {
+    return new NicknameResponse(nicknameService.generate());
+  }
 
-	@GetMapping("/nicknames/availability")
-	NicknameAvailabilityResponse nicknameAvailability(@RequestParam String nickname) {
-		return NicknameAvailabilityResponse.of(nickname, nicknameService.check(nickname));
-	}
+  @GetMapping("/nicknames/availability")
+  NicknameAvailabilityResponse nicknameAvailability(@RequestParam String nickname) {
+    return NicknameAvailabilityResponse.of(nickname, nicknameService.check(nickname));
+  }
 
-	/** 탈퇴. 이미 탈퇴했어도 204 */
-	@DeleteMapping("/me")
-	@ResponseStatus(HttpStatus.NO_CONTENT)
-	void withdraw(@AuthenticationPrincipal Jwt jwt) {
-		userAccountService.withdraw(userId(jwt));
-	}
+  /** 탈퇴. 이미 탈퇴했어도 204 */
+  @DeleteMapping("/me")
+  @ResponseStatus(HttpStatus.NO_CONTENT)
+  void withdraw(@AuthenticationPrincipal Jwt jwt) {
+    userAccountService.withdraw(userId(jwt));
+  }
 
-	private static UUID userId(Jwt jwt) {
-		return UUID.fromString(jwt.getSubject());
-	}
+  private static UUID userId(Jwt jwt) {
+    return UUID.fromString(jwt.getSubject());
+  }
 }

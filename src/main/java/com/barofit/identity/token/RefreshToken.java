@@ -19,41 +19,46 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class RefreshToken {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-	@Column(nullable = false, updatable = false)
-	private UUID userId;
+  @Column(nullable = false, updatable = false)
+  private UUID userId;
 
-	@Column(nullable = false, updatable = false)
-	private UUID sessionId;
+  @Column(nullable = false, updatable = false)
+  private UUID sessionId;
 
-	@Column(nullable = false, updatable = false)
-	private String tokenHash;
+  @Column(nullable = false, updatable = false)
+  private String tokenHash;
 
-	@Column(nullable = false, updatable = false)
-	private Instant expiresAt;
+  @Column(nullable = false, updatable = false)
+  private Instant expiresAt;
 
-	@Column(nullable = false, updatable = false)
-	private Instant sessionExpiresAt;
+  @Column(nullable = false, updatable = false)
+  private Instant sessionExpiresAt;
 
-	private Instant revokedAt;
+  private Instant revokedAt;
 
-	@Column(nullable = false, updatable = false)
-	private Instant createdAt;
+  @Column(nullable = false, updatable = false)
+  private Instant createdAt;
 
-	public RefreshToken(UUID userId, UUID sessionId, String tokenHash, Instant expiresAt, Instant sessionExpiresAt,
-			Instant now) {
-		this.userId = userId;
-		this.sessionId = sessionId;
-		this.tokenHash = tokenHash;
-		this.expiresAt = expiresAt;
-		this.sessionExpiresAt = sessionExpiresAt;
-		this.createdAt = now;
-	}
+  public RefreshToken(
+      UUID userId,
+      UUID sessionId,
+      String tokenHash,
+      Instant expiresAt,
+      Instant sessionExpiresAt,
+      Instant now) {
+    this.userId = userId;
+    this.sessionId = sessionId;
+    this.tokenHash = tokenHash;
+    this.expiresAt = expiresAt;
+    this.sessionExpiresAt = sessionExpiresAt;
+    this.createdAt = now;
+  }
 
-	public boolean isRevoked() {
-		return revokedAt != null;
-	}
+  public boolean isRevoked() {
+    return revokedAt != null;
+  }
 }

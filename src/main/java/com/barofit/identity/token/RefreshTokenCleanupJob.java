@@ -13,13 +13,13 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class RefreshTokenCleanupJob {
 
-	private final RefreshTokenRepository refreshTokenRepository;
-	private final Clock clock;
+  private final RefreshTokenRepository refreshTokenRepository;
+  private final Clock clock;
 
-	@Scheduled(cron = "${barofit.refresh-token.cleanup-cron:0 0 4 * * *}")
-	@Transactional
-	public void deleteSessionExpired() {
-		int deleted = refreshTokenRepository.deleteSessionExpiredBefore(clock.instant());
-		log.info("Deleted {} session-expired refresh tokens", deleted);
-	}
+  @Scheduled(cron = "${barofit.refresh-token.cleanup-cron:0 0 4 * * *}")
+  @Transactional
+  public void deleteSessionExpired() {
+    int deleted = refreshTokenRepository.deleteSessionExpiredBefore(clock.instant());
+    log.info("Deleted {} session-expired refresh tokens", deleted);
+  }
 }
