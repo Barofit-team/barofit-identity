@@ -27,7 +27,8 @@ barofit:
     public-jwks-path: ${JWT_PUBLIC_JWKS_PATH:}
     current-kid: ${JWT_CURRENT_KID:}
   profile-image:
-    # temporary: S3 연동 전 임시 저장소(파일을 보관하지 않고 임시 URL만 반환), s3: 미구현
+    # temporary: 임시 저장소(파일을 보관하지 않고 임시 URL만 반환), s3: S3 버킷에 저장(PutObject/
+    # DeleteObject, 자격증명은 기본 체인 — Pod Identity/IRSA/환경변수)
     storage: ${PROFILE_IMAGE_STORAGE:temporary}
     public-base-url: ${PROFILE_IMAGE_PUBLIC_BASE_URL:https://temp-storage.barofit.invalid}
     s3:
