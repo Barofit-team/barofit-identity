@@ -11,6 +11,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Table;
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.EnumSet;
 import java.util.Set;
 import java.util.UUID;
@@ -31,9 +33,12 @@ public class UserProfile {
   @Column(nullable = false)
   private Gender gender;
 
-  /** 나이로 입력받아 출생연도로 저장한다. 해가 바뀌면 나이가 따라 오른다 */
+  /** 생년월일을 모르는 기존 계정의 나이 계산에 사용하는 출생연도 */
   @Column(nullable = false)
   private int birthYear;
+
+  /** 기존 나이 입력 계정은 정확한 생일을 추정하지 않고 null로 보존한다. */
+  private LocalDate birthDate;
 
   @Column(nullable = false)
   private int heightCm;
@@ -76,7 +81,9 @@ public class UserProfile {
     UserProfile profile = new UserProfile();
     profile.userId = userId;
     profile.gender = command.gender();
-    profile.birthYear = currentYear - command.age();
+    profile.birthDate = command.birthDate();
+    profile.birthYear =
+        command.birthDate() == null ? currentYear - command.age() : command.birthDate().getYear();
     profile.heightCm = command.heightCm();
     profile.weightKg = command.weightKg();
     profile.goal = command.goal();
@@ -97,7 +104,10 @@ public class UserProfile {
     if (command.gender() != null) {
       gender = command.gender();
     }
-    if (command.age() != null) {
+    if (command.birthDate() != null) {
+      birthDate = command.birthDate();
+      birthYear = birthDate.getYear();
+    } else if (command.age() != null && birthDate == null) {
       birthYear = currentYear - command.age();
     }
     if (command.heightCm() != null) {
@@ -124,6 +134,10 @@ public class UserProfile {
       coachingStyle = command.coachingStyle();
     }
     updatedAt = now;
+  }
+
+  public int ageOn(LocalDate today) {
+    return birthDate == null ? ageIn(today.getYear()) : Period.between(birthDate, today).getYears();
   }
 
   public int ageIn(int year) {

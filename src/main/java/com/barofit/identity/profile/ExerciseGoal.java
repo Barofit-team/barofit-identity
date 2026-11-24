@@ -9,5 +9,7 @@ public enum ExerciseGoal {
   /** 체력 증진 */
   ENDURANCE,
   /** 자세 교정 */
-  POSTURE
+  POSTURE,
+  /** 운동 습관 형성 */
+  HABIT
 }

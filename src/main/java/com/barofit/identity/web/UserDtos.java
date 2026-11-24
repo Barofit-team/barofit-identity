@@ -12,6 +12,7 @@ import com.barofit.identity.profile.ProfileUpdateCommand;
 import com.barofit.identity.profile.UserProfile;
 import com.barofit.identity.user.User;
 import com.barofit.identity.user.UserRole;
+import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Digits;
@@ -19,6 +20,7 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -31,7 +33,7 @@ final class UserDtos {
   record OnboardingRequest(
       @NotNull String nickname,
       @NotNull Gender gender,
-      @NotNull @Min(14) @Max(100) Integer age,
+      @Min(14) @Max(100) Integer age,
       @NotNull @DecimalMin("100") @DecimalMax("250") @Digits(integer = 3, fraction = 0)
           BigDecimal heightCm,
       @NotNull @DecimalMin("20") @DecimalMax("300") @Digits(integer = 3, fraction = 0)
@@ -40,21 +42,28 @@ final class UserDtos {
       @NotNull ExperienceLevel experienceLevel,
       @NotNull @Min(2) @Max(6) Integer weeklyWorkoutDays,
       @NotNull Set<@NotNull DiscomfortArea> discomfortAreas,
-      @NotNull CoachingStyle coachingStyle) {
+      @NotNull CoachingStyle coachingStyle,
+      LocalDate birthDate) {
+
+    @AssertTrue(message = "생년월일 또는 기존 나이 입력이 필요합니다.")
+    public boolean isBirthDateOrAgeProvided() {
+      return birthDate != null || age != null;
+    }
 
     OnboardingCommand toCommand() {
       // @Digits(fraction = 0)을 통과했으므로 정수로 바꿀 수 있다
       return new OnboardingCommand(
           nickname,
           gender,
-          age,
+          age == null ? 0 : age,
           heightCm.intValueExact(),
           weightKg.intValueExact(),
           goal,
           experienceLevel,
           weeklyWorkoutDays,
           discomfortAreas,
-          coachingStyle);
+          coachingStyle,
+          birthDate);
     }
   }
 
@@ -69,7 +78,8 @@ final class UserDtos {
       ExperienceLevel experienceLevel,
       @Min(2) @Max(6) Integer weeklyWorkoutDays,
       Set<@NotNull DiscomfortArea> discomfortAreas,
-      CoachingStyle coachingStyle) {
+      CoachingStyle coachingStyle,
+      LocalDate birthDate) {
 
     ProfileUpdateCommand toCommand() {
       // @Digits(fraction = 0)을 통과했으므로 정수로 바꿀 수 있다
@@ -83,7 +93,8 @@ final class UserDtos {
           experienceLevel,
           weeklyWorkoutDays,
           discomfortAreas,
-          coachingStyle);
+          coachingStyle,
+          birthDate);
     }
   }
 
@@ -135,7 +146,8 @@ final class UserDtos {
       ExperienceLevel experienceLevel,
       int weeklyWorkoutDays,
       List<DiscomfortArea> discomfortAreas,
-      CoachingStyle coachingStyle) {
+      CoachingStyle coachingStyle,
+      LocalDate birthDate) {
 
     static ProfileResponse from(UserProfile profile, int age) {
       return new ProfileResponse(
@@ -147,7 +159,8 @@ final class UserDtos {
           profile.getExperienceLevel(),
           profile.getWeeklyWorkoutDays(),
           profile.getDiscomfortAreas().stream().sorted().toList(),
-          profile.getCoachingStyle());
+          profile.getCoachingStyle(),
+          profile.getBirthDate());
     }
   }
 }
