@@ -9,6 +9,15 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface UserRepository extends JpaRepository<User, UUID> {
 
+  org.springframework.data.domain.Page<User> findByNicknameContainingIgnoreCase(
+      String nickname, org.springframework.data.domain.Pageable pageable);
+
+  long countByOnboardedTrueAndStatus(UserStatus status);
+
+  long countByStatus(UserStatus status);
+
+  long countByCreatedAtGreaterThanEqual(java.time.Instant since);
+
   /** 같은 사용자의 온보딩 동시 요청을 직렬화한다 */
   @Lock(LockModeType.PESSIMISTIC_WRITE)
   @Query("select u from User u where u.id = :id")

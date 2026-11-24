@@ -34,6 +34,11 @@ barofit:
     s3:
       bucket: ${PROFILE_IMAGE_S3_BUCKET:}
       region: ${PROFILE_IMAGE_S3_REGION:}
+  admin:
+    bootstrap:
+      enabled: ${ADMIN_BOOTSTRAP_ENABLED:false}
+      username: ${ADMIN_BOOTSTRAP_USERNAME:}
+      password: ${ADMIN_BOOTSTRAP_PASSWORD:}
   social:
     # 허용 redirect_uri. 콘솔 등록값과 같아야 함
     redirect-uris: ${SOCIAL_REDIRECT_URIS:http://localhost:8081}

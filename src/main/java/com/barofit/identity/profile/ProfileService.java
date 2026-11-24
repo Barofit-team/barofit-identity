@@ -8,6 +8,8 @@ import com.barofit.identity.user.UserAccountService;
 import com.barofit.identity.user.UserRepository;
 import java.time.Clock;
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.Period;
 import java.time.ZoneId;
 import java.util.Optional;
 import java.util.UUID;
@@ -50,6 +52,7 @@ public class ProfileService {
     if (nicknameService.isTaken(command.nickname())) {
       throw new BusinessException(ProfileErrorCode.PROFILE_NICKNAME_DUPLICATED);
     }
+    validateBirthDate(command.birthDate());
     Instant now = clock.instant();
     int currentYear = currentYear();
     user.changeNickname(command.nickname(), now);
@@ -57,7 +60,7 @@ public class ProfileService {
     UserProfile profile =
         userProfileRepository.save(UserProfile.create(userId, command, currentYear, now));
     flushNickname();
-    return new MyAccount(user, Optional.of(profile), currentYear);
+    return new MyAccount(user, Optional.of(profile), currentYear, currentDate());
   }
 
   /** 온보딩 후 프로필 부분 수정. 보낸 항목만 바꾼다 */
@@ -82,6 +85,7 @@ public class ProfileService {
         userProfileRepository
             .findById(userId)
             .orElseThrow(() -> new IllegalStateException("온보딩한 사용자의 프로필이 없습니다: " + userId));
+    validateBirthDate(command.birthDate());
     Instant now = clock.instant();
     int currentYear = currentYear();
     // 대소문자만 바꾸는 경우는 자기 닉네임이므로 중복이 아니다
@@ -93,9 +97,12 @@ public class ProfileService {
     if (command.nickname() != null && !command.nickname().equals(user.getNickname())) {
       user.changeNickname(command.nickname(), now);
     }
+    if (command.birthDate() == null && command.age() != null && profile.getBirthDate() != null) {
+      throw new BusinessException(CommonErrorCode.INVALID_INPUT, "나이 대신 생년월일을 수정해 주세요.");
+    }
     profile.update(command, currentYear, now);
     flushNickname();
-    return new MyAccount(user, Optional.of(profile), currentYear);
+    return new MyAccount(user, Optional.of(profile), currentYear, currentDate());
   }
 
   @Transactional(readOnly = true)
@@ -105,7 +112,8 @@ public class ProfileService {
             .findById(userId)
             .filter(User::isActive)
             .orElseThrow(() -> new BusinessException(AuthErrorCode.AUTH_USER_WITHDRAWN));
-    return new MyAccount(user, userProfileRepository.findById(userId), currentYear());
+    return new MyAccount(
+        user, userProfileRepository.findById(userId), currentYear(), currentDate());
   }
 
   // 다른 사용자와 같은 닉네임을 동시에 확정하면 유니크 인덱스가 막는다
@@ -117,6 +125,18 @@ public class ProfileService {
         throw new BusinessException(ProfileErrorCode.PROFILE_NICKNAME_DUPLICATED);
       }
       throw e;
+    }
+  }
+
+  private LocalDate currentDate() {
+    return LocalDate.now(clock.withZone(AGE_ZONE));
+  }
+
+  private void validateBirthDate(LocalDate birthDate) {
+    if (birthDate == null) return;
+    int age = Period.between(birthDate, currentDate()).getYears();
+    if (birthDate.isAfter(currentDate()) || age < 14 || age > 100) {
+      throw new BusinessException(CommonErrorCode.INVALID_INPUT, "생년월일은 만 14~100세 범위로 입력해 주세요.");
     }
   }
 
