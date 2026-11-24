@@ -86,7 +86,7 @@ class AuthApiTest {
   @AfterEach
   void cleanUp() {
     jdbcTemplate.execute(
-        "TRUNCATE identity.user_profile_discomfort_areas, identity.user_profiles, identity.refresh_tokens, identity.social_accounts, identity.users");
+        "TRUNCATE identity.admin_credentials, identity.user_profile_discomfort_areas, identity.user_profiles, identity.refresh_tokens, identity.social_accounts, identity.users");
   }
 
   @Test
