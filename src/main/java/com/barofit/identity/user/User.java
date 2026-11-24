@@ -75,6 +75,12 @@ public class User {
     return user;
   }
 
+  public static User registerAdmin(String nickname, Instant now) {
+    User user = register(nickname, null, now);
+    user.role = UserRole.ADMIN;
+    return user;
+  }
+
   public void recordLogin(Instant now) {
     this.lastLoginAt = now;
     this.updatedAt = now;

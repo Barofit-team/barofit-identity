@@ -25,6 +25,21 @@ import org.springframework.web.bind.annotation.RestController;
 class AuthController {
 
   private final AuthService authService;
+  private final com.barofit.identity.admin.AdminPasswordService adminPasswords;
+
+  record AdminLoginRequest(
+      @jakarta.validation.constraints.NotBlank
+          @jakarta.validation.constraints.Pattern(regexp = "[a-zA-Z0-9][a-zA-Z0-9._-]{2,63}")
+          String username,
+      @jakarta.validation.constraints.NotBlank @jakarta.validation.constraints.Size(max = 64)
+          String password) {}
+
+  @PostMapping("/admin-login")
+  SocialLoginResponse adminLogin(@Valid @RequestBody AdminLoginRequest request) {
+    var outcome = adminPasswords.login(request.username(), request.password());
+    if (outcome.error() != null) throw new BusinessException(outcome.error());
+    return SocialLoginResponse.from(outcome.login());
+  }
 
   @PostMapping("/social-login")
   SocialLoginResponse socialLogin(@Valid @RequestBody SocialLoginRequest request) {
