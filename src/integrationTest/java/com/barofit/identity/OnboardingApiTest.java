@@ -1,8 +1,10 @@
 package com.barofit.identity;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -76,6 +78,68 @@ class OnboardingApiTest {
     jdbcTemplate.execute(
         "TRUNCATE identity.user_profile_discomfort_areas, identity.user_profiles, identity.refresh_tokens, "
             + "identity.social_accounts, identity.users");
+  }
+
+  @Test
+  void birthDateIsStoredReturnedAndCanReplaceLegacyAge() throws Exception {
+    UUID userId = newUser("생일테스트");
+    String body = FULL_REQUEST.replace("\"age\": 29", "\"birthDate\": \"2000-12-25\"");
+    onboard(userId, body)
+        .andExpect(status().isCreated())
+        .andExpect(jsonPath("$.profile.birthDate").value("2000-12-25"));
+    assertThat(
+            jdbcTemplate.queryForObject(
+                "SELECT birth_date::text FROM identity.user_profiles WHERE user_id = ?",
+                String.class,
+                userId))
+        .isEqualTo("2000-12-25");
+    mockMvc
+        .perform(get("/api/v1/users/me").header("Authorization", bearer(userId)))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.profile.birthDate").value("2000-12-25"));
+    mockMvc
+        .perform(
+            patch("/api/v1/users/me/profile")
+                .header("Authorization", bearer(userId))
+                .contentType(APPLICATION_JSON)
+                .content("{\"birthDate\":\"2001-01-20\"}"))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.profile.birthDate").value("2001-01-20"));
+    mockMvc
+        .perform(
+            patch("/api/v1/users/me/profile")
+                .header("Authorization", bearer(userId))
+                .contentType(APPLICATION_JSON)
+                .content("{\"age\":30}"))
+        .andExpect(status().isBadRequest());
+    assertThat(
+            jdbcTemplate.queryForObject(
+                "SELECT birth_date::text FROM identity.user_profiles WHERE user_id = ?",
+                String.class,
+                userId))
+        .isEqualTo("2001-01-20");
+  }
+
+  @Test
+  void invalidMissingFutureAndOutOfRangeBirthDatesAreRejected() throws Exception {
+    UUID userId = newUser("생일검증");
+    for (String date : new String[] {"2001-02-29", "2020-01-01", "1900-01-01", "2999-01-01"}) {
+      onboard(userId, FULL_REQUEST.replace("\"age\": 29", "\"birthDate\": \"" + date + "\""))
+          .andExpect(status().isBadRequest());
+    }
+    onboard(userId, FULL_REQUEST.replace("\"age\": 29,", "")).andExpect(status().isBadRequest());
+  }
+
+  @Test
+  void habitGoalIsPersistedAndReturned() throws Exception {
+    UUID userId = newUser("습관테스트");
+    onboard(userId, FULL_REQUEST.replace("WEIGHT_LOSS", "HABIT"))
+        .andExpect(status().isCreated())
+        .andExpect(jsonPath("$.profile.goal").value("HABIT"));
+    mockMvc
+        .perform(get("/api/v1/users/me").header("Authorization", bearer(userId)))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.profile.goal").value("HABIT"));
   }
 
   @Test

@@ -1,5 +1,6 @@
 package com.barofit.identity.profile;
 
+import java.time.LocalDate;
 import java.util.Set;
 
 /** 프로필 부분 수정 입력. null인 항목은 바꾸지 않는다. 불편 부위 "해당 없음"은 빈 목록 */
@@ -13,7 +14,32 @@ public record ProfileUpdateCommand(
     ExperienceLevel experienceLevel,
     Integer weeklyWorkoutDays,
     Set<DiscomfortArea> discomfortAreas,
-    CoachingStyle coachingStyle) {
+    CoachingStyle coachingStyle,
+    LocalDate birthDate) {
+  public ProfileUpdateCommand(
+      String nickname,
+      Gender gender,
+      Integer age,
+      Integer heightCm,
+      Integer weightKg,
+      ExerciseGoal goal,
+      ExperienceLevel experienceLevel,
+      Integer weeklyWorkoutDays,
+      Set<DiscomfortArea> discomfortAreas,
+      CoachingStyle coachingStyle) {
+    this(
+        nickname,
+        gender,
+        age,
+        heightCm,
+        weightKg,
+        goal,
+        experienceLevel,
+        weeklyWorkoutDays,
+        discomfortAreas,
+        coachingStyle,
+        null);
+  }
 
   public boolean isEmpty() {
     return nickname == null
@@ -25,6 +51,7 @@ public record ProfileUpdateCommand(
         && experienceLevel == null
         && weeklyWorkoutDays == null
         && discomfortAreas == null
-        && coachingStyle == null;
+        && coachingStyle == null
+        && birthDate == null;
   }
 }
